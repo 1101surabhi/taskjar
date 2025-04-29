@@ -33,7 +33,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // ✅ Important if you use cookies/auth
+    credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -44,8 +44,6 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-
-// app.options("*", cors());f
 
 // Routes
 app.use("/api/auth", authRoutes);
