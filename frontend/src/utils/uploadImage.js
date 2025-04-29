@@ -17,7 +17,7 @@ const uploadImage = async (imageFile) => {
       }
     );
     // return response.data; // Return response data
-    const imagePath = res.data.imageUrl;
+    const imagePath = response.data.imageUrl;
     const imageUrl = `${import.meta.env.VITE_BACKEND_URL}${imagePath}`;
 
     return { imageUrl };

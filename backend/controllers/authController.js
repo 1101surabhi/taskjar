@@ -13,13 +13,14 @@ const generateToken = (userId) => {
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, profileImageUrl, adminInviteToken } =
-      req.body;
-
+    req.body;
+    
     // check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
+
 
     // Determine user role: Admin if correct token is provided, otherwise member
     let role = "member";

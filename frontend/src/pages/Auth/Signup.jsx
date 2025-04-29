@@ -11,8 +11,27 @@ import { UserContext } from "../../context/userContext.jsx";
 
 import uploadImage from "../../utils/uploadImage.js";
 
+// Function to generate default avatar URL
+const getDefaultAvatar = (name) => {
+  const initial = name.charAt(0).toUpperCase(); // First letter of the name
+  const colors = [
+    "e57373",
+    "f06292",
+    "ba68c8",
+    "9575cd",
+    "7986cb",
+    "64b5f6",
+    "4dd0e1",
+    "4db6ac",
+    "81c784",
+    "dce775",
+  ];
+  const bgColor = colors[Math.floor(Math.random() * colors.length)];
+  return `https://ui-avatars.com/api/?name=${initial}&background=${bgColor}&color=fff&bold=true&size=128`;
+};
+
 const Signup = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -28,7 +47,7 @@ const Signup = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    let profileImageUrl = "";
+    let profileImageUrl = null;
 
     if (!fullName.trim()) {
       setError("Please enter fullName");
@@ -52,16 +71,30 @@ const Signup = () => {
         const imgUploadRes = await uploadImage(profilePic);
         profileImageUrl = imgUploadRes.imageUrl || "";
       }
-
-      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+      
+      const payload = {
         name: fullName,
         email,
         password,
-        profileImageUrl,
         adminInviteToken,
-      });
+      };
 
-      const { token, role } = response.data;
+      if (profileImageUrl) {
+        payload.profileImageUrl = profileImageUrl;
+      } else {
+        payload.profileImageUrl = getDefaultAvatar(fullName);
+      }
+
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.REGISTER,
+        payload
+      );
+
+      const {
+        token,
+        role,
+        profileImageUrl: backendProfileImageUrl,
+      } = response.data;
 
       if (token) {
         localStorage.setItem("token", token);
@@ -119,7 +152,7 @@ const Signup = () => {
               value={adminInviteToken}
               onChange={({ target }) => setAdminInviteToken(target.value)}
               label="Admin Invite Token"
-              placeholder="6 Digit Code"
+              placeholder="8 Digit Code"
               type="text"
             />
           </div>
