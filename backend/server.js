@@ -18,26 +18,43 @@ dotenv.config();
 
 const app = express();
 
-// Middleware to handle CORS
-const allowedOrigins = [
-  "https://taskjar-orcin.vercel.app",
-  "http://localhost:5173",
-];
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, 
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://taskjar-orcin.vercel.app",
+      "http://localhost:5173",
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
+// app.options("/*", cors(corsOptions), (req, res) => {
+//   res.sendStatus(204);
+// });
 
 // Connect Database
 connectDB();
