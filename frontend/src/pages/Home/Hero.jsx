@@ -34,7 +34,7 @@ const Hero = () => {
           progress, manage projects, and stay consistent, all in one place.
         </p>
 
-        <form onSubmit={emailSubmitHandler} className="relative flex items-center max-w-lg">
+        <form onSubmit={emailSubmitHandler} className="relative mx-auto md:m-0  flex items-center max-w-lg">
           <input
             className="bg-white h-14 sm:h-16 w-full border-2 border-indigo-600 rounded-full pl-6 focus:border-indigo-600 focus:outline-1 focus:outline-indigo-600 pr-36 sm:pr-40 "
             placeholder="Enter your email"

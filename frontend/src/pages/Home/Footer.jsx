@@ -22,21 +22,21 @@ const Footer = () => {
   };
 
   return (
-    <div className="bg-[#1B262C] px-6 sm:px-10 md:px-16 xl:px-32 pt-20 pb-6 relative overflow-hidden">
+    <div className="bg-[#1B262C] px-6 sm:px-10 md:px-16 xl:px-32 pt-20 pb-6 relative overflow-hidden mt-10">
       <div className="flex flex-col md:flex-row justify-between gap-6 items-start">
         <div className="text-white text-4xl sm:text-5xl font-semibold">
           Ready to boost <br /> your productivity?
         </div>
-        <div className=" w-full   md:w-1/2">
+        <div className=" w-full flex flex-row flex-nowrap gap-4   md:w-1/2">
           <button
             onClick={() => navigate("/signUp")}
-            className="bg-[#f4f4f4] px-8 py-3 md:px-8 md:py-3 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition md:mr-10"
+            className="bg-[#f4f4f4] px-8 py-3 md:px-8 md:py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition md:mr-10"
           >
             Sign Up
           </button>
           <button
             onClick={() => navigate("/login")}
-            className="bg-[#f4f4f4] px-9 py-3 lg:px-8 lg:py-3  rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition"
+            className="bg-[#f4f4f4] px-9 py-3 lg:px-8 lg:py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition"
           >
             Sign In
           </button>
