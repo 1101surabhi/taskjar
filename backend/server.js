@@ -21,7 +21,7 @@ const app = express();
 // Middleware to handle CORS
 const allowedOrigins = [
   "https://taskjar-orcin.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
 ];
 
 app.use(
@@ -44,8 +44,6 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-
-app.options("*", cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
