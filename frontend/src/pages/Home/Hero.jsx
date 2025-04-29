@@ -51,7 +51,7 @@ const Hero = () => {
           </button>
         </form>
       </div>
-      <div className="lg:w-1/2 w-full mb-10 lg:mb-0 z-10">
+      <div className="lg:w-1/2 w-full mb-10 lg:mb-0 z-10 flex flex-row-reverse">
       {/* <div className="w-1/2"> */}
         <img src={HeroSectionImg} className="hidden lg:block pointer-events-none select-none w-full max-w-xl mx-auto" />
       </div>
