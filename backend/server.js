@@ -45,6 +45,8 @@ connectDB();
 // Middleware
 app.use(express.json());
 
+// app.options("*", cors());f
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

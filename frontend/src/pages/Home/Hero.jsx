@@ -42,7 +42,7 @@ const Hero = () => {
             onChange={emailChangeHandler}
           />
           <button
-            className="px-4 py-2 bg-indigo-600 text-white rounded-full flex gap-2 items-center absolute right-2 sm:right-3.5" type="submit"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-full flex gap-2 items-center absolute right-2 sm:right-3.5 cursor-pointer" type="submit"
           >
           {/* <button
             className="px-4 py-2 bg-indigo-600 text-white rounded-full flex gap-2 items-center absolute right-3.5" type="submit"
