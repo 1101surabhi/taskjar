@@ -19,12 +19,22 @@ dotenv.config();
 const app = express();
 
 // Middleware to handle CORS
+const allowedOrigins = [
+  "https://taskjar-orcin.vercel.app",
+  "http://localhost:5173"
+];
+
 app.use(
   cors({
-    // origin: process.env.CLIENT_URL || "*",
-    // origin:"https://6f1d-103-157-195-127.ngrok-free.app",
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // ✅ Important if you use cookies/auth
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -34,6 +44,8 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+
+app.options("*", cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
