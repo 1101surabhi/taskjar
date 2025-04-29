@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
-import TaskJarBrand from "../../assets/graphics/taskjarBrand.svg";
+import TaskJarBrand from "../../assets/graphics/taskJarBrand.svg";
 import { Menu, X } from "lucide-react"; // for hamburger icons
 
 const Navbar = () => {
