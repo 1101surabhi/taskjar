@@ -26,24 +26,27 @@ axiosInstance.interceptors.request.use(
 
 // Response Interceptor
 axiosInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      // Handle common errors globally
-      if (error.response) {
-        if (error.response.status === 401) {
-          // Redirect to login page
-          window.location.href = "/login";
-        } else if (error.response.status === 500) {
-          console.error("Server error. Please try again later.");
-        }
-      } else if (error.code === "ECONNABORTED") {
-        console.error("Request timeout. Please try again.");
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // Handle common errors globally
+    if (error.response) {
+      if (
+        error.response.status === 401 &&
+        window.location.pathname !== "/signUp" &&
+        window.location.pathname !== "/login"
+      ) {
+        // Redirect to login page
+        window.location.href = "/login";
+      } else if (error.response.status === 500) {
+        console.error("Server error. Please try again later.");
       }
-      return Promise.reject(error);
+    } else if (error.code === "ECONNABORTED") {
+      console.error("Request timeout. Please try again.");
     }
-  );
-  
-  export default axiosInstance;
-  
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
+  createBrowserRouter,
+  RouterProvider,
   Outlet,
   Navigate,
+  redirect,
 } from "react-router-dom";
+
 import LandingPage from "../src/pages/Home/LandingPage";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/Signup";
@@ -21,37 +22,86 @@ import ViewTaskDetails from "./pages/User/ViewTaskDetails";
 
 import PrivateRoute from "./routes/PrivateRoute";
 import UserProvider, { UserContext } from "./context/userContext";
+
+import axiosInstance from "./utils/axiosInstance";
+import { API_PATHS } from "./utils/apiPaths";
 import { Toaster } from "react-hot-toast";
+
+
+const validateToken = async () => {
+  try {
+    const response = await axiosInstance.get(API_PATHS.AUTH.VALIDATE_TOKEN);
+    if (response.status === 200) {
+      const role = response.data.user?.role;
+    return  redirect(role === "admin" ? "/admin/dashboard" : "/user/dashboard");
+    }
+  } catch (error) {
+    console.log("Token validation failed:", error);
+    return null ;
+  }
+};
+
+// Define routes using createBrowserRouter
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/login",
+    loader: validateToken,
+    element: <Login />,
+  },
+  {
+    path: "/signUp",
+    loader: validateToken,
+    element: <SignUp />,
+  },
+  {
+    element: <PrivateRoute allowedRoles={["admin"]} />,
+    children: [
+      {
+        path: "/admin/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/admin/tasks",
+        element: <ManageTasks />,
+      },
+      {
+        path: "/admin/create-task",
+        element: <CreateTask />,
+      },
+      {
+        path: "/admin/users",
+        element: <ManageUsers />,
+      },
+    ],
+  },
+  {
+    element: <PrivateRoute allowedRoles={["user"]} />,
+    children: [
+      {
+        path: "/user/dashboard",
+        element: <UserDashboard />,
+      },
+      {
+        path: "/user/tasks",
+        element: <MyTasks />,
+      },
+      {
+        path: "/user/task-details/:id",
+        element: <ViewTaskDetails />,
+      },
+    ],
+  },
+]);
 
 const App = () => {
   return (
     <UserProvider>
       <div>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signUp" element={<SignUp />} />
-
-            {/* Admin Routes */}
-            <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-              <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/tasks" element={<ManageTasks />} />
-              <Route path="/admin/create-task" element={<CreateTask />} />
-              <Route path="/admin/users" element={<ManageUsers />} />
-            </Route>
-
-            {/* User Routes */}
-            <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-              <Route path="/user/dashboard" element={<UserDashboard />} />
-              <Route path="/user/tasks" element={<MyTasks />} />
-              <Route
-                path="/user/task-details/:id"
-                element={<ViewTaskDetails />}
-              />
-            </Route>
-          </Routes>
-        </Router>
+        <RouterProvider router={router} />
       </div>
 
       <Toaster

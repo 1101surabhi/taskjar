@@ -71,7 +71,7 @@ export const loginUser = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.json(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     return res.status(200).json({
@@ -134,3 +134,10 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+export const validateToken = (_,res) =>{
+  console.log("backend request")
+  res.status(200).json({
+    success:true
+  })
+}

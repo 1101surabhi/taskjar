@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
+import toast from "react-hot-toast";
 
 import Input from "../../components/Inputs/Input.jsx";
 
@@ -17,7 +18,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const {updateUser} = useContext(UserContext)
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   // Handle Login Form Submit
@@ -32,6 +33,10 @@ const Login = () => {
       setError("Please enter the password");
       return;
     }
+    if (password.trim().length < 8) {
+      setError("Password must be 8 characters long");
+      return;
+    }
     setError("");
 
     // Login API Call
@@ -44,8 +49,9 @@ const Login = () => {
       const { token, role } = response.data;
 
       if (token) {
+        toast.success("Login successful");
         localStorage.setItem("token", token);
-        updateUser(response.data)
+        updateUser(response.data);
 
         // Redirect based on role
         if (role === "admin") {
@@ -55,6 +61,7 @@ const Login = () => {
         }
       }
     } catch (error) {
+      toast.error("Login failed");
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
@@ -75,7 +82,7 @@ const Login = () => {
             value={email}
             onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
-            placeholder="john@example.com" 
+            placeholder="john@example.com"
             type="text"
           />
           <Input

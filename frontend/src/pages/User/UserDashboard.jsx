@@ -27,6 +27,8 @@ const UserDashboard = () => {
   const [pieChartData, setPieChartData] = useState([]);
   const [barChartData, setBarChartData] = useState([]);
 
+  const [greeting, setGreeting] = useState("Good Morning");
+
   // Prepare Chart Data
   const prepareChartData = (data) => {
     const taskDistribution = data?.taskDistribution || null;
@@ -68,6 +70,18 @@ const UserDashboard = () => {
   };
 
   useEffect(() => {
+    const hour = new Date().getHours();
+
+    // Determine greeting
+    if (hour < 12) {
+      setGreeting("Good Morning");
+    } else if (hour < 17) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
+    }
+    getDashboardData();
+
     getDashboardData();
 
     return () => {};

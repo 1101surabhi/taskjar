@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../components/Inputs/Input";
@@ -62,6 +63,10 @@ const Signup = () => {
       setError("Please enter the password");
       return;
     }
+    if (password.trim().length < 8) {
+      setError("Password must be 8 characters long");
+      return;
+    }
     setError("");
 
     // Login API call
@@ -71,7 +76,7 @@ const Signup = () => {
         const imgUploadRes = await uploadImage(profilePic);
         profileImageUrl = imgUploadRes.imageUrl || "";
       }
-      
+
       const payload = {
         name: fullName,
         email,
@@ -99,6 +104,7 @@ const Signup = () => {
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
+        toast.success("Successful");
 
         //Redirect based on role
         if (role === "admin") {
@@ -108,6 +114,7 @@ const Signup = () => {
         }
       }
     } catch (error) {
+      toast.error("Sign-up failed");
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {

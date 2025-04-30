@@ -17,8 +17,11 @@ const Footer = () => {
 
   const messageSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(message);
-    navigate("/send-message");
+
+    const encodedMessage = encodeURIComponent(message);
+    const mailtoLink = `mailto:shivamtiwari0322@gmail.com?subject=Mail%20from%20TaskJar&body=${encodedMessage}`;
+
+    window.location.href = mailtoLink;
   };
 
   return (
@@ -27,16 +30,16 @@ const Footer = () => {
         <div className="text-white text-4xl sm:text-5xl font-semibold">
           Ready to boost <br /> your productivity?
         </div>
-        <div className=" w-full flex flex-row flex-nowrap gap-4   md:w-1/2">
+        <div className="w-full flex flex-row flex-nowrap gap-4 md:w-1/2">
           <button
             onClick={() => navigate("/signUp")}
-            className="bg-[#f4f4f4] px-8 py-3 md:px-8 md:py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition md:mr-10"
+            className="bg-[#f4f4f4] px-8 py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition md:mr-10"
           >
             Sign Up
           </button>
           <button
             onClick={() => navigate("/login")}
-            className="bg-[#f4f4f4] px-9 py-3 lg:px-8 lg:py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition"
+            className="bg-[#f4f4f4] px-9 py-3 min-w-36 rounded-full text-lg font-medium hover:bg-[#1B262C] hover:text-white border hover:border-white transition"
           >
             Sign In
           </button>
@@ -78,11 +81,14 @@ const Footer = () => {
             <a href="https://github.com/1101surabhi/taskjar" target="_blank">
               <img src={GithubIcon} alt="GitHub" />
             </a>
-            <a href="https://www.linkedin.com/in/surabhiagarwal-/" target="_blank">
-              <img src={LinkedinIcon} alt="LinkedIn" target="_blank"/>
+            <a
+              href="https://www.linkedin.com/in/surabhiagarwal-/"
+              target="_blank"
+            >
+              <img src={LinkedinIcon} alt="LinkedIn" />
             </a>
             <a href="mailto:shivamtiwari0322@gmail.com?subject=Mail%20from%20TaskJar">
-              <img src={MailIcon} alt="Email" target="_blank"/>
+              <img src={MailIcon} alt="Email" />
             </a>
           </div>
         </div>
