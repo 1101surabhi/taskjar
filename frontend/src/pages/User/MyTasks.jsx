@@ -74,7 +74,7 @@ const MyTasks = () => {
               dueDate={item.dueDate}
               assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
               attachmentCount={item.attachments?.length || 0}
-              completedTodoCount={item.completedTodoCount?.length || 0}
+              completedTodoCount={item.completedTodoCount || 0}
               todoCheckList={item.todoCheckList || []}
               onClick={() => handleClick(item._id)}
             />
